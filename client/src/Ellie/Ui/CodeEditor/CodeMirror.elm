@@ -1,4 +1,4 @@
-module Views.Editors.CodeMirror
+module Ellie.Ui.CodeEditor.CodeMirror
     exposing
         ( LinterMessage
         , Position

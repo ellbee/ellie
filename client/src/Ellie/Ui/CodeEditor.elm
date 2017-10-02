@@ -1,14 +1,14 @@
-module Views.Editors
+module Ellie.Ui.CodeEditor
     exposing
         ( elm
         , html
         )
 
 import Data.Elm.Compiler.Error as CompilerError
+import Ellie.Ui.CodeEditor.CodeMirror as CodeMirror
 import Html exposing (Html, div, span, text)
 import Html.Attributes exposing (style, value)
 import Shared.Utils as Utils
-import Views.Editors.CodeMirror as CodeMirror
 
 
 elm : Bool -> Maybe (String -> msg) -> String -> List CompilerError.Error -> Html msg

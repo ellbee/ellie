@@ -1,4 +1,7 @@
-import initCodeMirror from '../../Views/Editors/CodeMirror'
+import initCodeMirror from '../../Ellie/Ui/CodeEditor/CodeMirror'
+import IconLoader from '../../Ellie/Ui/Icon/Loader'
+
+IconLoader.load()
 
 initCodeMirror()
   .then(() => {

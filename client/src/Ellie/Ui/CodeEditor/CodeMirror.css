@@ -1,5 +1,6 @@
 .CodeMirror {
   background-color: #292929 !important;
+  font-weight: normal !important;
 }
 
 .CodeMirror-focused .CodeMirror-activeline-background,

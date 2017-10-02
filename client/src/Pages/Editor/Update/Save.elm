@@ -30,7 +30,6 @@ type alias NotificationInfo =
     { title : String
     , level : Notification.Level
     , message : String
-    , action : Maybe Notification.Action
     }
 
 
@@ -80,7 +79,6 @@ update model msg =
                     "Accepting Terms Failed"
                     Notification.Error
                     "Something went wrong while accepting our terms. This isn't supposed to happen, and we're working on fixing it! You can also try again."
-                    Nothing
             , Cmd.none
             )
 
@@ -92,7 +90,6 @@ update model msg =
                         "Saving may take a while"
                         Notification.Info
                         "It looks like there are a lot of modules to compile. Please wait a moment while I build everything and save it!"
-                        Nothing
               else
                 Nothing
             , Cmd.none
@@ -110,7 +107,6 @@ update model msg =
                     "Compiling Failed"
                     Notification.Error
                     message
-                    Nothing
             , Cmd.none
             )
 
@@ -138,7 +134,6 @@ update model msg =
                     "Your Project Was Saved"
                     Notification.Success
                     "Ellie saved your project! Your revision number has been updated in the URL."
-                    Nothing
             , revision.id
                 |> Maybe.map Routing.SpecificRevision
                 |> Maybe.map (Routing.construct >> Navigation.newUrl)
@@ -157,6 +152,5 @@ update model msg =
                     "Failed To Save Project"
                     Notification.Error
                     ("Ellie couldn't save your project. Here's what the server said:\n" ++ apiError.explanation)
-                    Nothing
             , Cmd.none
             )

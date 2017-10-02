@@ -1,13 +1,13 @@
 import 'es6-promise/auto'
 import './Main.css'
-import initCodeMirror from '../../Views/Editors/CodeMirror'
+import initCodeMirror from '../../Ellie/Ui/CodeEditor/CodeMirror'
 import fixHtml from './fixHtml'
 import captureOpbeat from '../../Shared/Opbeat'
-import Icon from '../../Ellie/Ui/Icon'
+import IconLoader from '../../Ellie/Ui/Icon/Loader'
 import '../../Ellie/Ui/ProgressBar.css'
 import Layout from './Layout'
 
-Icon.load()
+IconLoader.load()
 
 const vimMode = window.location.search.indexOf('vim=true') !== -1
 initCodeMirror(vimMode)

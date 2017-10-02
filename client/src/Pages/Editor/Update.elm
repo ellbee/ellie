@@ -111,14 +111,12 @@ onlineNotification isOnline =
             { level = Notification.Success
             , title = "You're Online!"
             , message = "Ellie has detected that your internet connection is online."
-            , action = Nothing
             }
     else
         Cmds.notify NotificationReceived
             { level = Notification.Error
             , title = "You're Offline!"
             , message = "Ellie can't connect to the server right now, so we've disabled most features."
-            , action = Nothing
             }
 
 
@@ -149,7 +147,6 @@ update msg model =
                     { level = Notification.Info
                     , title = "Compiler Cache Cleared"
                     , message = "All cached compiler artifacts have been removed. Your next build may take a while!"
-                    , action = Nothing
                     }
                 ]
             )
@@ -183,7 +180,6 @@ update msg model =
                         { level = Notification.Error
                         , title = "Creating Gist Failed"
                         , message = "We couldn't create a Gist for your project. Here's what GitHub said:\n" ++ apiError.explanation
-                        , action = Nothing
                         }
             )
 
@@ -193,7 +189,6 @@ update msg model =
                 { level = Notification.Error
                 , title = "JavaScript Error"
                 , message = "A JavaScript Error was thrown by your program:\n" ++ message
-                , action = Nothing
                 }
             )
 
@@ -220,7 +215,9 @@ update msg model =
 
         NotificationReceived notification ->
             ( { model
-                | notifications = notification :: model.notifications
+                | notifications =
+                    notification
+                        :: List.filter (Notification.eq notification >> not) model.notifications
               }
             , Process.sleep (15 * Time.second)
                 |> Task.andThen (\_ -> Time.now)
@@ -263,7 +260,6 @@ update msg model =
                         { level = Notification.Success
                         , title = "Your Project Is Loaded!"
                         , message = "Ellie found the project and revision you asked for. It's loaded up and ready to be run."
-                        , action = Nothing
                         }
 
                 Err apiError ->
@@ -274,7 +270,6 @@ update msg model =
                             { level = Notification.Error
                             , title = "Failed To Load Project"
                             , message = "Ellie couldn't load the project you asked for. Here's what the server said:\n" ++ apiError.explanation
-                            , action = Nothing
                             }
             )
 
@@ -288,17 +283,7 @@ update msg model =
 
         CompileStageChanged stage ->
             ( { model | compileStage = stage }
-            , case stage of
-                CompileStage.Failed message ->
-                    Cmds.notify NotificationReceived
-                        { level = Notification.Error
-                        , title = "Compilation Failed!"
-                        , message = message ++ "\n\n" ++ "Sometimes it helps to clear the compiler cache and try again!"
-                        , action = Just Notification.ClearElmStuff
-                        }
-
-                _ ->
-                    Cmd.none
+            , Cmd.none
             )
 
         CompileForSaveStarted totalModules ->
@@ -308,7 +293,6 @@ update msg model =
                     { level = Notification.Info
                     , title = "Saving may take a while"
                     , message = "It looks like there are a lot of modules to compile. Please wait a moment while I build everything and save it!"
-                    , action = Nothing
                     }
               else
                 Cmd.none
@@ -359,7 +343,6 @@ update msg model =
                             { level = Notification.Error
                             , title = "Formatting Your Code Failed"
                             , message = "Ellie couldn't format your code. Here's what the server said:\n" ++ apiError.explanation
-                            , action = Nothing
                             }
                         , if apiError.statusCode == 500 then
                             Opbeat.capture

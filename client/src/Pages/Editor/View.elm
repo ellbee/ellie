@@ -1,6 +1,7 @@
 module Pages.Editor.View exposing (view)
 
 import Data.Ellie.SaveState as SaveState
+import Ellie.Ui.CodeEditor as CodeEditor
 import Ellie.Ui.Toast as Toast
 import Html exposing (Html, button, div, header, iframe, main_, span, text)
 import Pages.Editor.Header.View as Header
@@ -12,12 +13,11 @@ import Pages.Editor.Sidebar.View as Sidebar
 import Pages.Editor.Update as Update exposing (Msg(..))
 import Pages.Editor.Update.Save as UpdateSave
 import RemoteData exposing (RemoteData(..))
-import Views.Editors as Editors
 
 
 viewElm : Model -> Html Msg
 viewElm model =
-    Editors.elm
+    CodeEditor.elm
         model.vimMode
         (Just ElmCodeChanged)
         model.stagedElmCode
@@ -26,7 +26,7 @@ viewElm model =
 
 viewHtml : Model -> Html Msg
 viewHtml model =
-    Editors.html
+    CodeEditor.html
         model.vimMode
         (Just HtmlCodeChanged)
         model.stagedHtmlCode
