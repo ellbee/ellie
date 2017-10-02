@@ -20,15 +20,19 @@ var _user$project$Native_CarbonAds = (function () {
     var element = document.createElement('div')
     element.id = 'carbon'
 
-    var script = document.createElement('script')
-    script.async = true
-    script.src = '//cdn.carbonads.com/carbon.js?zoneid=' + model.zoneId + '&serve=' + model.serve + '&placement=' + model.placement
-    script.id = '_carbonads_js'
-    script.type = 'text/javascript'
+    try {
+      var script = document.createElement('script')
+      script.async = true
+      script.src = '//cdn.carbonads.com/carbon.js?zoneid=' + model.zoneId + '&serve=' + model.serve + '&placement=' + model.placement
+      script.id = '_carbonads_js'
+      script.type = 'text/javascript'
 
-    // if (process.env.NODE_ENV === 'production') {
-      element.appendChild(script)
-    // }
+      if (process.env.NODE_ENV === 'production') {
+        element.appendChild(script)
+      }
+    } catch (e) {
+
+    }
 
     return element
   }
